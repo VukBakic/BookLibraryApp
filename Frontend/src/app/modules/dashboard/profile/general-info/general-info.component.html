@@ -1,0 +1,210 @@
+<app-flash-message
+  [(message)]="flashMessage"
+  [status]="flashStatus"
+></app-flash-message>
+
+<div class="card border-0 rounded shadow">
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-6">
+          <div
+            class="form-group mt-2"
+            [ngClass]="{ 'has-danger': !formValidity.username }"
+          >
+            <label class="form-label" for="username"
+              >Korisnicko Ime <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control username"
+              id="username"
+              aria-describedby="username"
+              formControlName="username"
+              placeholder="Unesite korisnicko ime"
+              (blur)="onFieldBlur($event)"
+              [readonly]="true"
+              [attr.disabled]="true"
+            />
+            <app-control-message
+              [control]="getControl('username')"
+              [submitErrors]="submitErrors"
+            ></app-control-message>
+            <small id="usernameHelp" class="form-text text-muted"
+              >Korisnicko ime mora biti jedinstveno.</small
+            >
+          </div>
+
+          <div
+            class="form-group"
+            [ngClass]="{ 'has-danger': !formValidity.firstname }"
+          >
+            <label class="form-label" for="firstname"
+              >Ime <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="firstname"
+              aria-describedby="firstName"
+              formControlName="firstname"
+              placeholder="Unesite ime"
+              (blur)="onFieldBlur($event)"
+            />
+            <app-control-message
+              [control]="getControl('firstname')"
+              [submitErrors]="submitErrors"
+            ></app-control-message>
+          </div>
+          <div
+            class="form-group"
+            [ngClass]="{ 'has-danger': !formValidity.lastname }"
+          >
+            <label class="form-label" for="lastname"
+              >Prezime <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="lastname"
+              aria-describedby="lastName"
+              formControlName="lastname"
+              placeholder="Unesite prezime"
+              (blur)="onFieldBlur($event)"
+            />
+            <app-control-message
+              [control]="getControl('lastname')"
+              [submitErrors]="submitErrors"
+            ></app-control-message>
+          </div>
+          <div
+            class="form-group"
+            [ngClass]="{ 'has-danger': !formValidity.city }"
+          >
+            <label class="form-label" for="city"
+              >Grad <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="city"
+              aria-describedby="city"
+              formControlName="city"
+              placeholder="Unesite grad"
+              (blur)="onFieldBlur($event)"
+            />
+            <app-control-message
+              [control]="getControl('city')"
+              [submitErrors]="submitErrors"
+            ></app-control-message>
+          </div>
+          <div
+            class="form-group"
+            [ngClass]="{ 'has-danger': !formValidity.address }"
+          >
+            <label class="form-label" for="address"
+              >Adresa <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="address"
+              aria-describedby="address"
+              formControlName="address"
+              placeholder="Unesite ulicu i broj"
+              (blur)="onFieldBlur($event)"
+            />
+            <app-control-message
+              [control]="getControl('address')"
+              [submitErrors]="submitErrors"
+            ></app-control-message>
+          </div>
+
+          <div
+            class="form-group"
+            [ngClass]="{ 'has-danger': !formValidity.phone }"
+          >
+            <label class="form-label" for="phone"
+              >Telefon <span class="required">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="phone"
+              aria-describedby="phone"
+              formControlName="phone"
+              placeholder="Unesite broj telefona"
+              (blur)="onFieldBlur($event)"
+            />
+            <app-control-message
+              [control]="getControl('phone')"
+              [submitErrors]="submitErrors"
+            ></app-control-message>
+          </div>
+
+          <div
+            class="form-group"
+            [ngClass]="{ 'has-danger': !formValidity.email }"
+          >
+            <label class="form-label" for="email"
+              >Email <span class="required">*</span></label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              aria-describedby="email"
+              formControlName="email"
+              placeholder="Unesite email adresu"
+              (blur)="onFieldBlur($event)"
+            />
+            <app-control-message
+              [control]="getControl('email')"
+              [submitErrors]="submitErrors"
+            ></app-control-message>
+          </div>
+
+          <div
+            class="form-group"
+            class="avatar"
+            [ngClass]="{ 'has-danger': !formValidity.avatar }"
+          >
+            <label class="form-label" for="avatar">Profilna slika </label>
+            <br />
+            <div *ngIf="avatarUrl && avatarUrl !== ''">
+              <img [src]="avatarUrl" class="imagePreview" />
+            </div>
+            <div class="input-group">
+              <div class="form-control upload-control border-end-0">
+                {{ avatarFileName || "Odaberite sliku..." }}
+              </div>
+              <div
+                class="input-group-append btn btn-pills btn-soft-primary"
+                (click)="avatar.click()"
+              >
+                <fa-icon [icon]="faFileUpload"></fa-icon>
+              </div>
+            </div>
+
+            <input
+              hidden
+              #avatar
+              id="avatar"
+              type="file"
+              accept="image/*"
+              (change)="showPreview(avatar.files)"
+            />
+
+            <app-control-message
+              [control]="getControl('avatar')"
+              [submitErrors]="submitErrors"
+            ></app-control-message>
+          </div>
+        </div>
+        <div class="text-end mt-3">
+          <button type="submit" class="btn btn-primary">Sacuvaj</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

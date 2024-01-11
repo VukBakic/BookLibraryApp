@@ -1,0 +1,14 @@
+<div
+  *ngIf="message"
+  class="alert-dismissible alert fade show"
+  [ngClass]="status"
+  role="alert"
+>
+  {{ message }}
+  <button
+    (click)="toggleDismiss()"
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+  ></button>
+</div>

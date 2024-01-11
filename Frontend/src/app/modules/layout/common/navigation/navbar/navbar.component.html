@@ -1,0 +1,338 @@
+<header *ngIf="role == 'user'" id="topnav" class="defaultscroll">
+  <div class="container">
+    <a class="logo" href="/dashboard">
+      <img
+        src="assets/images/logo-dark.png"
+        height="24"
+        class="logo-light-mode"
+        alt=""
+      />
+      <img
+        src="assets/images/logo-light.png"
+        height="24"
+        class="logo-dark-mode"
+        alt=""
+      />
+    </a>
+
+    <div class="menu-extras">
+      <div class="menu-item">
+        <!-- Mobile menu toggle-->
+        <a class="navbar-toggle" id="isToggle" (click)="toggleMenu()">
+          <div class="lines">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </a>
+        <!-- End mobile menu toggle-->
+      </div>
+    </div>
+
+    <!--Login button Start-->
+    <ul class="buy-button list-inline mb-0">
+      <li class="list-inline-item mb-0 ms-1">
+        <div class="dropdown dropdown-primary">
+          <button
+            type="button"
+            class="btn btn-soft-light dropdown-toggle p-0 show"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="true"
+          >
+            <img
+              src="{{ img_path }}"
+              class="avatar avatar-ex-small rounded"
+              alt=""
+            />
+          </button>
+          <div
+            class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3"
+            style="
+              min-width: 200px;
+              position: absolute;
+              inset: 0px 0px auto auto;
+              margin: 0px;
+              transform: translate(0px, 40px);
+            "
+            data-popper-placement="bottom-end"
+          >
+            <a
+              class="dropdown-item d-flex align-items-center text-dark pb-3"
+              [routerLink]="['/dashboard/profile']"
+            >
+              <img
+                src="{{ img_path }}"
+                class="avatar avatar-md-sm rounded-circle border shadow"
+                alt=""
+              />
+              <div class="flex-1 ms-2">
+                <span class="d-block">{{ name }}</span>
+                <small class="text-muted">{{ username }}</small>
+              </div>
+            </a>
+            <a
+              class="dropdown-item text-dark"
+              [routerLink]="['/dashboard/profile']"
+              ><span class="mb-0 d-inline-block me-1"
+                ><i class="ti ti-settings"></i
+              ></span>
+              Profil</a
+            >
+
+            <div class="dropdown-divider border-top"></div>
+
+            <a class="dropdown-item text-dark cursor" (click)="logout()"
+              ><span class="mb-0 d-inline-block me-1"
+                ><i class="ti ti-logout"></i
+              ></span>
+              Izlogujte se</a
+            >
+          </div>
+        </div>
+      </li>
+    </ul>
+    <!--Login button End-->
+
+    <div id="navigation">
+      <!-- Navigation Menu-->
+      <ul class="navigation-menu">
+        <li><a href="/dashboard" class="sub-menu-item">Pocetna</a></li>
+        <li class="has-submenu parent-parent-menu-item">
+          <a href="javascript:void(0)">Biblioteka</a
+          ><span class="menu-arrow"></span>
+          <ul class="submenu">
+            <li>
+              <a [routerLink]="['/dashboard/search']" class="sub-menu-item"
+                >Pretraga knjiga
+              </a>
+            </li>
+            <li *ngIf="!authService.blocked">
+              <a [routerLink]="['/dashboard/request']" class="sub-menu-item"
+                >Zahtev za dodavanje knjige</a
+              >
+            </li>
+            <li>
+              <a [routerLink]="['/dashboard/borrowed']" class="sub-menu-item"
+                >Zaduzenja i rezervacije</a
+              >
+            </li>
+            <li *ngIf="!authService.blocked">
+              <a [routerLink]="['/dashboard/history']" class="sub-menu-item"
+                >Istorija zaduzenja
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <!--end navigation menu-->
+    </div>
+    <!--end navigation-->
+  </div>
+  <!--end container-->
+</header>
+
+<header *ngIf="role == 'moderator'" id="topnav" class="defaultscroll">
+  <div class="container">
+    <a class="logo" href="/dashboard">
+      <img
+        src="assets/images/logo-dark.png"
+        height="24"
+        class="logo-light-mode"
+        alt=""
+      />
+      <img
+        src="assets/images/logo-light.png"
+        height="24"
+        class="logo-dark-mode"
+        alt=""
+      />
+    </a>
+
+    <div class="menu-extras">
+      <div class="menu-item">
+        <!-- Mobile menu toggle-->
+        <a class="navbar-toggle" id="isToggle" (click)="toggleMenu()">
+          <div class="lines">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </a>
+        <!-- End mobile menu toggle-->
+      </div>
+    </div>
+
+    <!--Login button Start-->
+    <ul class="buy-button list-inline mb-0">
+      <li class="list-inline-item mb-0 ms-1">
+        <div class="dropdown dropdown-primary">
+          <button
+            type="button"
+            class="btn btn-soft-light dropdown-toggle p-0 show"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="true"
+          >
+            <img
+              src="{{ img_path }}"
+              class="avatar avatar-ex-small rounded"
+              alt=""
+            />
+          </button>
+          <div
+            class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3"
+            style="
+              min-width: 200px;
+              position: absolute;
+              inset: 0px 0px auto auto;
+              margin: 0px;
+              transform: translate(0px, 40px);
+            "
+            data-popper-placement="bottom-end"
+          >
+            <a
+              class="dropdown-item d-flex align-items-center text-dark pb-3"
+              [routerLink]="['/dashboard/profile']"
+            >
+              <img
+                src="{{ img_path }}"
+                class="avatar avatar-md-sm rounded-circle border shadow"
+                alt=""
+              />
+              <div class="flex-1 ms-2">
+                <span class="d-block">{{ name }}</span>
+                <small class="text-muted">{{ username }}</small>
+              </div>
+            </a>
+            <a
+              class="dropdown-item text-dark"
+              [routerLink]="['/dashboard/profile']"
+              ><span class="mb-0 d-inline-block me-1"
+                ><i class="ti ti-settings"></i
+              ></span>
+              Profil</a
+            >
+
+            <div class="dropdown-divider border-top"></div>
+
+            <a class="dropdown-item text-dark cursor" (click)="logout()"
+              ><span class="mb-0 d-inline-block me-1"
+                ><i class="ti ti-logout"></i
+              ></span>
+              Izlogujte se</a
+            >
+          </div>
+        </div>
+      </li>
+    </ul>
+    <!--Login button End-->
+
+    <div id="navigation">
+      <!-- Navigation Menu-->
+      <ul class="navigation-menu">
+        <li><a href="/dashboard" class="sub-menu-item">Pocetna</a></li>
+        <li class="has-submenu parent-parent-menu-item">
+          <a href="javascript:void(0)">Biblioteka</a
+          ><span class="menu-arrow"></span>
+          <ul class="submenu">
+            <li>
+              <a [routerLink]="['/dashboard/search']" class="sub-menu-item"
+                >Pretraga knjiga
+              </a>
+            </li>
+            <li *ngIf="!authService.blocked">
+              <a
+                [routerLink]="['/dashboard/moderator/add-book']"
+                class="sub-menu-item"
+                >Dodaj knjigu</a
+              >
+            </li>
+            <li *ngIf="!authService.blocked">
+              <a
+                [routerLink]="['/dashboard/moderator/requests']"
+                class="sub-menu-item"
+                >Zahtevi za dodavanje knjiga</a
+              >
+            </li>
+            <li>
+              <a [routerLink]="['/dashboard/borrowed']" class="sub-menu-item"
+                >Zaduzenja i rezervacije</a
+              >
+            </li>
+            <li *ngIf="!authService.blocked">
+              <a [routerLink]="['/dashboard/history']" class="sub-menu-item"
+                >Istorija zaduzenja
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <!--end navigation menu-->
+    </div>
+    <!--end navigation-->
+  </div>
+  <!--end container-->
+</header>
+
+<header *ngIf="role == 'guest'" id="topnav" class="defaultscroll">
+  <div class="container">
+    <a class="logo" href="/">
+      <img
+        src="assets/images/logo-dark.png"
+        height="24"
+        class="logo-light-mode"
+        alt=""
+      />
+      <img
+        src="assets/images/logo-light.png"
+        height="24"
+        class="logo-dark-mode"
+        alt=""
+      />
+    </a>
+
+    <div class="menu-extras">
+      <div class="menu-item">
+        <!-- Mobile menu toggle-->
+        <a class="navbar-toggle" id="isToggle" (click)="toggleMenu()">
+          <div class="lines">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </a>
+        <!-- End mobile menu toggle-->
+      </div>
+    </div>
+
+    <!--Login button Start-->
+    <ul class="buy-button list-inline mb-0">
+      <li class="list-inline-item ps-1 mb-0">
+        <a [routerLink]="['/login']" class="btn btn-pills btn-soft-primary"
+          >Ulogujte se</a
+        >
+      </li>
+      <li class="list-inline-item ps-1 mb-0">
+        <a [routerLink]="['/register']" class="btn btn-pills btn-primary"
+          >Registracija</a
+        >
+      </li>
+    </ul>
+    <!--Login button End-->
+
+    <div id="navigation">
+      <!-- Navigation Menu-->
+      <ul class="navigation-menu">
+        <li><a href="/" class="sub-menu-item">Pocetna</a></li>
+
+        <li>
+          <a [routerLink]="['/search']" class="sub-menu-item">Pretraga</a>
+        </li>
+      </ul>
+      <!--end navigation menu-->
+    </div>
+    <!--end navigation-->
+  </div>
+  <!--end container-->
+</header>

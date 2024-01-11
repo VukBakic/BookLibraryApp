@@ -1,0 +1,57 @@
+<div class="section mt-5">
+  <div class="container">
+    <app-flash-message
+      [(message)]="flashMessage"
+      [status]="flashStatus"
+      class="mt-2 mb-2"
+    ></app-flash-message>
+  </div>
+  <swiper effect="fade" [config]="sliderConfig" class="blog-slider">
+    <ng-template
+      *ngFor="let result of top; index as i"
+      swiperSlide
+      class="blog-slider__item"
+      ><div class="blog-slider__img">
+        <div class="book-card">
+          <div class="book-card__cover">
+            <div class="book-card__book">
+              <div class="book-card__book-front">
+                <img
+                  src="{{
+                    result.book.img_path
+                      ? BOOK_IMAGE_URL + '/' + result.book.img_path
+                      : DEFAULT_BOOK_IMAGE
+                  }}"
+                  class="book-card__img"
+                  alt=""
+                />
+              </div>
+              <div class="book-card__book-back"></div>
+              <div class="book-card__book-side"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="blog-slider__content">
+        <span class="blog-slider__code">{{
+          result.book.author.join(", ")
+        }}</span>
+        <div class="blog-slider__title">{{ result.book.name }}</div>
+        <div class="blog-slider__text">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae
+          voluptate repellendus magni illo ea animi?
+        </div>
+
+        <a
+          [routerLink]="['/dashboard/book/', result.book._id]"
+          [state]="{ redirect: '/login' }"
+          class="btn btn-pills btn-primary"
+          >Pogledaj knjigu</a
+        >
+      </div></ng-template
+    >
+    <span slot="container-end">
+      <div class="blog-slider__pagination"></div
+    ></span>
+  </swiper>
+</div>

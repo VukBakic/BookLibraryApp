@@ -1,0 +1,69 @@
+<section class="section mt-60">
+  <div class="container mt-lg-3">
+    <div class="row">
+      <div class="col-lg-4 col-md-12 col-12">
+        <div class="sidebar sticky-bar p-4 rounded shadow">
+          <div class="widget mt-4">
+            <ul class="list-unstyled sidebar-nav mb-0" id="navmenu-nav">
+              <li
+                class="navbar-item account-menu px-0"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+              >
+                <a
+                  routerLink="./"
+                  class="navbar-link d-flex rounded shadow align-items-center py-2 px-4"
+                >
+                  <span class="h5 mb-0"
+                    ><fa-icon [icon]="faUser" size="xs"></fa-icon
+                  ></span>
+                  <h6 class="mb-0 ms-2">Opsti podaci</h6>
+                </a>
+              </li>
+
+
+              <li
+                class="navbar-item account-menu px-0 mt-2"
+                routerLinkActive="active"
+              >
+                <a
+                  routerLink="change-password"
+                  class="navbar-link d-flex rounded shadow align-items-center py-2 px-4"
+                >
+                  <span class="h5 mb-0"
+                    ><fa-icon [icon]="faIdCard" size="xs"></fa-icon
+                  ></span>
+                  <h6 class="mb-0 ms-2">Promena lozinke</h6>
+                </a>
+              </li>
+
+              <li
+              class="navbar-item account-menu px-0 mt-2"
+              routerLinkActive="active"
+            >
+              <a
+                routerLink="graphs"
+                class="navbar-link d-flex rounded shadow align-items-center py-2 px-4"
+              >
+                <span class="h5 mb-0"
+                  ><fa-icon [icon]="faIdCard" size="xs"></fa-icon
+                ></span>
+                <h6 class="mb-0 ms-2">Navike</h6>
+              </a>
+            </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!--end col-->
+
+      <div class="col-lg-8 col-12">
+        <router-outlet></router-outlet>
+        <!--end row-->
+      </div>
+      <!--end col-->
+    </div>
+    <!--end row-->
+  </div>
+  <!--end container-->
+</section>

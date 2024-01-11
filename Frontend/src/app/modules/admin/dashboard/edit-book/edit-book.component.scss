@@ -1,0 +1,91 @@
+.form-li-item {
+  font-size: 0.7500000025rem;
+}
+
+.card-register {
+  .card-header {
+    .register-card-title {
+      font-size: 3.35em;
+      width: 380px;
+    }
+    .register-card-img {
+      width: 380px;
+    }
+  }
+}
+
+.card {
+  .card-body {
+    form {
+      label + .form-control {
+        margin-bottom: 2px;
+      }
+    }
+  }
+}
+.danger-label:after {
+  top: 36px;
+}
+.success-label:after {
+  top: 36px;
+}
+
+.imagePreview {
+  width: 100px;
+  height: 100px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.upload-control {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.form-group,
+.input-group {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.has-danger:after,
+.has-success:after {
+  display: inline-block;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  font: var(--fa-font-solid);
+  content: "\f00c";
+  display: inline-block;
+  position: absolute;
+  right: 26px;
+  top: 45px;
+  color: #1be611;
+  font-size: 11px;
+}
+
+.no-after:after {
+  display: none;
+}
+.has-danger:after {
+  content: "\f00d";
+  color: #ec250d;
+}
+.required {
+  color: #ec250d;
+}
+.has-danger input {
+  border-color: #e43f52;
+}
+
+.ng-invalid-overide {
+  border-color: #e43f52 !important;
+}
+
+.invalid-file-btn {
+  border: 1px solid #e43f52 !important;
+  border-left: none !important;
+}
+
+.w-50px {
+  width: 50px;
+}

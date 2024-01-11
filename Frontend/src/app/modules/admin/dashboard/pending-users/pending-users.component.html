@@ -1,0 +1,155 @@
+<app-flash-message [message]="flashMessage"></app-flash-message>
+
+<div class="mt-4 mb-4">
+  <div class="d-flex justify-content-between p-4 bg-white shadow rounded-top">
+    <h6 class="fw-bold mb-0">Nalozi</h6>
+
+    <ul class="list-unstyled mb-0">
+      <li class="dropdown dropdown-primary list-inline-item">
+        <button
+          type="button"
+          class="btn btn-icon btn-pills btn-soft-primary dropdown-toggle p-0"
+          data-bs-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <fa-icon [icon]="faEllipsisVertical"></fa-icon>
+        </button>
+        <div
+          class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3"
+        >
+          <a
+            [routerLink]="[]"
+            class="dropdown-item text-dark"
+            (click)="setFilter('pending')"
+          >
+            Na cekanju</a
+          >
+          <a
+            [routerLink]="[]"
+            class="dropdown-item text-dark"
+            (click)="setFilter('all')"
+          >
+            Svi nalozi</a
+          >
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="table-responsive shadow rounded-bottom" data-simplebar="init">
+    <div class="simplebar-wrapper" style="margin: 0px">
+      <div class="simplebar-height-auto-observer-wrapper">
+        <div class="simplebar-height-auto-observer"></div>
+      </div>
+      <div class="simplebar-mask">
+        <div class="simplebar-offset" style="right: 0px; bottom: 0px">
+          <div class="simplebar-content-wrapper" style="height: 100%">
+            <div
+              class="simplebar-content table-responsive-md"
+              style="padding: 0px"
+            >
+              <table class="table table-center bg-white mb-0">
+                <thead>
+                  <tr>
+                    <th class="border-bottom p-3" style="min-width: 180px">
+                      Korisnicko ime
+                    </th>
+                    <th
+                      class="border-bottom p-3 d-none d-md-table-cell mw-200px"
+                      tyle="min-width: 220px"
+                    >
+                      Ime
+                    </th>
+                    <th
+                      class="border-bottom p-3 d-none d-xl-table-cell"
+                      style="min-width: 150px"
+                    >
+                      Datum registracije
+                    </th>
+                    <th
+                      class="text-center border-bottom p-3 d-none d-sm-table-cell"
+                    >
+                      Status
+                    </th>
+                    <th
+                      class="text-end border-bottom p-3"
+                      style="min-width: 100px"
+                    ></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of users">
+                    <td class="p-3">
+                      <a
+                        [routerLink]="['change-status', user._id]"
+                        class="text-primary"
+                      >
+                        <div class="d-flex align-items-center">
+                          <img
+                            src="{{
+                              user.img_path
+                                ? USER_IMAGES_URL + '/' + user.img_path
+                                : DEFAULT_USER_IMAGE
+                            }}"
+                            class="avatar avatar-ex-small rounded-circle shadow"
+                            alt=""
+                          />
+                          <span class="ms-2">{{ user.username }} </span>
+                        </div>
+                      </a>
+                    </td>
+                    <td class="p-3 d-none d-md-table-cell">
+                      {{ user.firstname }} {{ user.lastname }}
+                    </td>
+                    <td class="p-3 d-none d-xl-table-cell">
+                      {{ user.createdAt | date: "dd/MM/Y HH:mm" }}
+                    </td>
+                    <td class="text-center p-3 d-none d-sm-table-cell">
+                      <div
+                        class="badge rounded px-3 py-1"
+                        [ngClass]="{
+                          'bg-soft-warning': user.active == false,
+                          'bg-soft-success':
+                            user.active == true && user.blocked == false,
+                          'bg-soft-danger': user.blocked == true
+                        }"
+                      >
+                        {{ user.active == false ? "Na cekanju" : "" }}
+                        {{
+                          user.active == 1 && user.blocked == false
+                            ? "Aktivan"
+                            : ""
+                        }}
+                        {{ user.blocked == true ? "Blokiran" : "" }}
+                      </div>
+                    </td>
+                    <td class="text-end p-3">
+                      <a
+                        [routerLink]="['change-status', user._id]"
+                        class="btn btn-sm btn-primary"
+                        >Uredi</a
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <numbered-pagination
+      [index]="index"
+      (page)="users = $event"
+      (loading)="isLoading = $event"
+      [reload]="reload"
+      [totalCount]="cnt"
+      [getFunction]="getPending"
+    ></numbered-pagination>
+  </div>
+</div>

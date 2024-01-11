@@ -1,0 +1,128 @@
+<div class="container mt-100 mt-60 mb-3">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="section-title text-center mb-4 pb-2">
+        <h4 class="title mb-4">Vase zaduzene knjige</h4>
+        <p class="text-muted para-desc mb-0 mx-auto">
+          Lista vasih zaduzenih knjiga
+        </p>
+      </div>
+      <app-flash-message
+        [status]="flashMessageStatus"
+        [(message)]="flashMessage"
+      ></app-flash-message>
+    </div>
+    <!--end col-->
+  </div>
+  <div class="row">
+    <div
+      *ngFor="let borrow of borrowed; let i = index"
+      class="col-lg-4 col-md-6 col-12 mt-4 pt-2"
+    >
+      <div class="book-card card rounded border-0 shadow">
+        <div class="book-card__cover">
+          <div class="book-card__book">
+            <div class="book-card__book-front">
+              <img
+                src="{{
+                  borrow.book.img_path
+                    ? BOOK_IMAGE_URL + '/' + borrow.book.img_path
+                    : DEFAULT_BOOK_IMAGE
+                }}"
+                class="book-card__img"
+              />
+            </div>
+            <div class="book-card__book-back"></div>
+            <div class="book-card__book-side"></div>
+          </div>
+        </div>
+        <div class="card-body content">
+          <h2 class="title text-dark h5">{{ borrow.book.name }}</h2>
+          <p class="text-muted mt-2">
+            {{ borrow.book.author.join(", ") }}
+          </p>
+
+          <a
+            [routerLink]="['/dashboard/book/', borrow.book._id]"
+            class="text-primary"
+            >Detaljnije
+            <fa-icon
+              [icon]="faAngleRight"
+              size="sm"
+              [styles]="{ 'vertical-align': 'middle' }"
+            ></fa-icon
+          ></a>
+          <ul
+            class="list-unstyled d-flex justify-content-between border-top mt-3 pt-3 mb-0"
+          >
+            <li
+              class="text-muted small text-nowrap"
+              [ngClass]="{
+                'text-strong': borrow.daysLeft < 0
+              }"
+            >
+              <span class="mb-0 pe-1"
+                ><fa-icon
+                  [icon]="faClock"
+                  size="lg"
+                  class="text-danger"
+                ></fa-icon></span
+              >{{
+                borrow.daysLeft >= 0
+                  ? "Rok za vracanje :"
+                  : "Rok istekao! Kasnite:"
+              }}
+            </li>
+            <li class="small ms-3">
+              <span
+                class="badge rounded-pill"
+                [ngClass]="{
+                  'bg-soft-primary': borrow.daysLeft > 2,
+                  'bg-soft-warning':
+                    borrow.daysLeft <= 2 && borrow.daysLeft >= 0,
+                  'bg-soft-danger': borrow.daysLeft < 0
+                }"
+              >
+                <span *ngIf="borrow.daysLeft == 0">Danas</span>
+                <span *ngIf="borrow.daysLeft == 1 || borrow.daysLeft == -1"
+                  >1 dan</span
+                >
+                <span *ngIf="borrow.daysLeft > 1"
+                  >{{ borrow.daysLeft }} dana</span
+                >
+                <span *ngIf="borrow.daysLeft < -1"
+                  >{{ -borrow.daysLeft }} dana</span
+                >
+              </span>
+            </li>
+          </ul>
+
+          <div class="border-top mt-3 pt-3 text-end d-flex">
+            <a
+              *ngIf="!borrowed[i].extended"
+              (click)="extendBook(borrowed[i]._id)"
+              class="btn btn-soft-warning"
+            >
+              Produzi
+            </a>
+            <a
+              (click)="returnBook(borrowed[i]._id)"
+              class="btn btn-soft-primary ms-auto"
+            >
+              Razduzi
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!--end card / course-blog-->
+    </div>
+    <div
+      *ngIf="!loading && borrowed.length == 0"
+      class="alert alert-primary"
+      role="alert"
+    >
+      Nemate knjiga na zaduzenju.
+    </div>
+  </div>
+</div>

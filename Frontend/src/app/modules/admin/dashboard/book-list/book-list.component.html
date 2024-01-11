@@ -1,0 +1,164 @@
+<app-flash-message [message]="flashMessage"></app-flash-message>
+
+<div class="mt-4 mb-4">
+  <div class="d-flex justify-content-between p-4 bg-white shadow rounded-top">
+    <h6 class="fw-bold mb-0">Knjige</h6>
+    <ul class="list-unstyled mb-0">
+      <li class="dropdown dropdown-primary list-inline-item">
+        <button
+          type="button"
+          class="btn btn-icon btn-pills btn-soft-primary dropdown-toggle p-0"
+          data-bs-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <fa-icon [icon]="faEllipsisVertical"></fa-icon>
+        </button>
+        <div
+          class="dropdown-menu dd-menu dropdown-menu-end bg-white shadow border-0 mt-3 py-3"
+        >
+          <a
+            [routerLink]="[]"
+            class="dropdown-item text-dark"
+            (click)="toggleAdvancedSearch()"
+          >
+            Napredna pretraga</a
+          >
+        </div>
+      </li>
+    </ul>
+  </div>
+  <form class="bg-white shadow p-2" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div
+        class="form-group col-12 col-sm-6 col-md-5 col-lg-4 col-xxl-3 d-inline-flex align-items-center ps-4 mb-2"
+      >
+        <label class="form-label mb-0 text-nowrap" for="name">Naslov :</label>
+        <input
+          type="text"
+          class="form-control ms-2"
+          id="name"
+          aria-describedby="name"
+          formControlName="name"
+          placeholder="Unesite naziv knjige"
+        />
+      </div>
+      <div
+        class="form-group col-12 col-sm-6 col-md-5 col-lg-4 col-xxl-3 d-inline-flex align-items-center ps-4 ps-sm-0 mb-2"
+      >
+        <label class="form-label mb-0 text-nowrap" for="author">Autor :</label>
+        <input
+          type="text"
+          class="form-control ms-2"
+          id="author"
+          aria-describedby="author"
+          formControlName="author"
+          placeholder="Unesite ime autora"
+        />
+      </div>
+      <div class="col-md-2 col-lg-2 col-xl-2 col-xxl-2 text-end text-md-start">
+        <button class="btn btn-pills btn-primary">Pretrazi</button>
+      </div>
+    </div>
+  </form>
+  <div class="table-responsive shadow rounded-bottom" data-simplebar="init">
+    <div class="simplebar-wrapper" style="margin: 0px">
+      <div class="simplebar-height-auto-observer-wrapper">
+        <div class="simplebar-height-auto-observer"></div>
+      </div>
+      <div class="simplebar-mask">
+        <div class="simplebar-offset" style="right: 0px; bottom: 0px">
+          <div class="simplebar-content-wrapper" style="height: 100%">
+            <div
+              class="simplebar-content table-responsive-md"
+              style="padding: 0px"
+            >
+              <table class="table table-center bg-white mb-0">
+                <thead>
+                  <tr>
+                    <th class="border-bottom p-3" style="min-width: 180px">
+                      Naslov
+                    </th>
+                    <th
+                      class="border-bottom p-3 d-none d-md-table-cell mw-200px"
+                      tyle="min-width: 220px"
+                    >
+                      Autor
+                    </th>
+                    <th
+                      class="border-bottom p-3 d-none d-xl-table-cell"
+                      style="min-width: 150px"
+                    >
+                      Datum dodavanja
+                    </th>
+                    <th
+                      class="text-center border-bottom p-3 d-none d-sm-table-cell"
+                    >
+                      Izdavac
+                    </th>
+                    <th
+                      class="text-end border-bottom p-3"
+                      style="min-width: 100px"
+                    ></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let book of books">
+                    <td class="p-3">
+                      <a
+                        [routerLink]="['../', 'edit-book', book._id]"
+                        class="text-primary"
+                      >
+                        <div class="d-flex align-items-center">
+                          <img
+                            src="{{
+                              book.img_path
+                                ? BOOK_IMAGE_URL + '/' + book.img_path
+                                : DEFAULT_BOOK_IMAGE
+                            }}"
+                            class="book-img shadow"
+                            alt=""
+                          />
+                          <span class="ms-2">{{ book.name }} </span>
+                        </div>
+                      </a>
+                    </td>
+                    <td class="p-3 d-none d-md-table-cell">
+                      {{ book.author.join(", ") }}
+                    </td>
+                    <td class="p-3 d-none d-xl-table-cell">
+                      {{ book.createdAt | date: "dd/MM/Y HH:mm" }}
+                    </td>
+                    <td class="text-center p-3 d-none d-sm-table-cell">
+                      {{ book.publisher }}
+                    </td>
+                    <td class="text-end p-3">
+                      <a
+                        [routerLink]="['../', 'edit-book', book._id]"
+                        class="btn btn-sm btn-primary"
+                        >Uredi</a
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <numbered-pagination
+      [index]="index"
+      (page)="books = $event"
+      (loading)="isLoading = $event"
+      [reload]="reload"
+      [totalCount]="cnt"
+      [getFunction]="updateFunc"
+    ></numbered-pagination>
+  </div>
+</div>

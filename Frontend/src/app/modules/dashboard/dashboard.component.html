@@ -1,0 +1,80 @@
+<section class="bg-half-170 d-table w-100 bg-light">
+  <div class="container">
+    <div class="row">
+      <app-flash-message
+        class="mb-4"
+        [status]="flashStatus"
+        [(message)]="flashMessage"
+      ></app-flash-message>
+    </div>
+    <div class="row">
+      <app-flash-message
+        *ngFor="let notify of notifications"
+        [status]="notify.status"
+        [(message)]="notify.message"
+      ></app-flash-message>
+    </div>
+
+    <div *ngIf="bookOfTheDay" class="row mt-5 mt-sm-0 align-items-center">
+      <div class="col-lg-6 col-md-6">
+        <div class="title-heading me-lg-4">
+          <h4 class="display-4 fw-bold mb-3">
+            {{ bookOfTheDay.name }}
+          </h4>
+          <p class="fw-bold text-uppercase para-desc mb-0">Knjiga dana</p>
+          <p class="text-muted para-desc mb-0">
+            {{ bookOfTheDay.author.join(", ") }}
+          </p>
+          <div class="rating-holder mt-3">
+            <div
+              class="c-rating c-rating--big"
+              [attr.data-rating-value]="bookOfTheDay.stars"
+            >
+              <button>1</button>
+              <button>2</button>
+              <button>3</button>
+              <button>4</button>
+              <button>5</button>
+              <button>6</button>
+              <button>7</button>
+              <button>8</button>
+              <button>9</button>
+              <button>10</button>
+              <span class="rating-number ps-2">
+                <span class="text-primary text-bold mb-0">{{
+                  bookOfTheDay.rating | number: "1.0-2"
+                }}</span
+                ><span class="text-muted mb-0">/10</span></span
+              >
+            </div>
+          </div>
+          <div class="mt-4 pt-2">
+            <a
+              [routerLink]="['book', bookOfTheDay._id]"
+              class="btn btn-soft-primary m-1"
+              >Pogledaj</a
+            >
+          </div>
+        </div>
+      </div>
+      <!--end col-->
+
+      <div class="col-lg-6 col-md-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
+        <div class="bg-white p-5 rounded-md">
+          <img
+            src="{{
+              bookOfTheDay.img_path
+                ? BOOK_IMAGE_URL + '/' + bookOfTheDay.img_path
+                : DEFAULT_BOOK_IMAGE
+            }}"
+            class="img-fluid mx-auto d-block bookoftheday"
+            alt=""
+          />
+        </div>
+      </div>
+      <!--end col-->
+    </div>
+    <!--end row-->
+  </div>
+  <!--end container-->
+</section>

@@ -1,0 +1,122 @@
+<nav id="sidebar" class="sidebar-wrapper sidebar-dark">
+  <div
+    class="sidebar-content"
+    data-simplebar="init"
+    style="height: calc(100% - 60px)"
+  >
+    <div class="simplebar-wrapper" style="margin: 0px">
+      <div class="simplebar-height-auto-observer-wrapper">
+        <div class="simplebar-height-auto-observer"></div>
+      </div>
+      <div class="simplebar-mask">
+        <div class="simplebar-offset" style="right: 0px; bottom: 0px">
+          <div
+            class="simplebar-content-wrapper"
+            style="height: 100%; overflow: hidden"
+          >
+            <div class="simplebar-content" style="padding: 0px">
+              <div class="sidebar-brand">
+                <a [routerLink]="[]" routerLinkActive="active">
+                  <img src="assets/images/logo-white.png" height="24" alt="" />
+                </a>
+              </div>
+
+              <ul class="sidebar-menu">
+                <li class="sidebar">
+                  <a
+                    [routerLink]="['/admin/dashboard']"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    routerLinkActive="active"
+                    ><i class="me-2"
+                      ><fa-icon
+                        [icon]="faUsersGear"
+                        class="text-center"
+                      ></fa-icon></i
+                    >Korisnici</a
+                  >
+                </li>
+                <li class="sidebar">
+                  <a
+                    [routerLink]="['/admin/dashboard/add-user']"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    routerLinkActive="active"
+                    ><i class="me-2"
+                      ><fa-icon
+                        [icon]="faUsersGear"
+                        class="text-center"
+                      ></fa-icon></i
+                    >Dodaj korisnika</a
+                  >
+                </li>
+                <li class="sidebar">
+                  <a
+                    [routerLink]="['/admin/dashboard/books']"
+                    routerLinkActive="active"
+                    ><i class="me-2"
+                      ><fa-icon
+                        [icon]="faUsersGear"
+                        class="text-center"
+                      ></fa-icon></i
+                    >Knjige</a
+                  >
+                </li>
+                <li class="sidebar">
+                  <a
+                    [routerLink]="['/admin/dashboard/add-book']"
+                    routerLinkActive="active"
+                    ><i class="me-2"
+                      ><fa-icon
+                        [icon]="faUsersGear"
+                        class="text-center"
+                      ></fa-icon></i
+                    >Dodaj knjigu</a
+                  >
+                </li>
+                <li class="sidebar">
+                  <a
+                    [routerLink]="['/admin/dashboard/config']"
+                    routerLinkActive="active"
+                    ><i class="me-2"
+                      ><fa-icon
+                        [icon]="faUsersGear"
+                        class="text-center"
+                      ></fa-icon></i
+                    >Podesavanja</a
+                  >
+                </li>
+              </ul>
+              <!-- sidebar-menu  -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="simplebar-placeholder"
+        style="width: auto; height: 728px"
+      ></div>
+    </div>
+    <div
+      class="simplebar-track simplebar-horizontal"
+      style="visibility: hidden"
+    >
+      <div class="simplebar-scrollbar" style="width: 0px; display: none"></div>
+    </div>
+    <div class="simplebar-track simplebar-vertical" style="visibility: hidden">
+      <div class="simplebar-scrollbar" style="height: 0px; display: none"></div>
+    </div>
+  </div>
+  <!-- Sidebar Footer -->
+  <ul class="sidebar-footer list-unstyled mb-0">
+    <li class="list-inline-item mb-0">
+      <a [routerLink]="[]" (click)="logout()"
+        ><i class="me-2"
+          ><fa-icon
+            [icon]="faArrowRightFromBracket"
+            class="text-center"
+          ></fa-icon></i
+        >Izloguj se</a
+      >
+    </li>
+  </ul>
+  <!-- Sidebar Footer -->
+</nav>

@@ -1,0 +1,30 @@
+<ul *ngIf="totalPages > 0" class="pagination justify-content-end mb-0">
+  <li class="page-item" (click)="navigateToPage(1)">
+    <a class="page-link" aria-label="Previous"
+      ><fa-icon [icon]="faAngleDoubleLeft"></fa-icon>
+    </a>
+  </li>
+  <li class="page-item" (click)="navigateToPage(index - 1)">
+    <a class="page-link" aria-label="Previous"
+      ><fa-icon [icon]="faAngleLeft"></fa-icon
+    ></a>
+  </li>
+  <li
+    *ngFor="let page of pagination.pages; trackBy: trackByFn"
+    class="page-item"
+    [class.active]="page === pagination.index"
+    (click)="navigateToPage(page)"
+  >
+    <a class="page-link" aria-label="Previous">{{ page }}</a>
+  </li>
+  <li class="page-item" (click)="navigateToPage(index + 1)">
+    <a class="page-link" aria-label="Previous"
+      ><fa-icon [icon]="faAngleRight"></fa-icon
+    ></a>
+  </li>
+  <li class="page-item" (click)="navigateToPage(totalPages)">
+    <a class="page-link" aria-label="Previous"
+      ><fa-icon [icon]="faAngleDoubleRight"></fa-icon>
+    </a>
+  </li>
+</ul>

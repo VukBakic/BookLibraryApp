@@ -1,0 +1,64 @@
+<app-flash-message
+  [message]="flashMessage"
+  [status]="flashStatus"
+></app-flash-message>
+
+<div class="card border-0 rounded shadow">
+  <div class="card-body">
+    <h5>Podesavanja biblioteke :</h5>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-6">
+          <div
+            class="form-group"
+            [ngClass]="{ 'has-danger': !formValidity.daysToReturn }"
+          >
+            <label class="form-label" for="daysToReturn"
+              >Rok za vracanje knjige u danima
+              <span class="required">*</span></label
+            >
+            <input
+              type="number"
+              class="form-control"
+              id="daysToReturn"
+              aria-describedby="daysToReturn"
+              formControlName="daysToReturn"
+              placeholder="Unesite broj dana"
+              (blur)="onFieldBlur($event)"
+            />
+            <app-control-message
+              [control]="getControl('daysToReturn')"
+              [submitErrors]="submitErrors"
+            ></app-control-message>
+          </div>
+          <div
+            class="form-group"
+            [ngClass]="{ 'has-danger': !formValidity.daysToExtend }"
+          >
+            <label class="form-label" for="daysToExtend"
+              >Rok za produzenje knjige u danima
+              <span class="required">*</span></label
+            >
+            <input
+              type="number"
+              class="form-control"
+              id="daysToExtend"
+              aria-describedby="daysToExtend"
+              formControlName="daysToExtend"
+              placeholder="Unesite broj dana"
+              (blur)="onFieldBlur($event)"
+            />
+            <app-control-message
+              [control]="getControl('daysToExtend')"
+              [submitErrors]="submitErrors"
+            ></app-control-message>
+          </div>
+        </div>
+        <div class="col-12 text-end">
+          <button type="submit" class="btn btn-primary">Sacuvaj</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

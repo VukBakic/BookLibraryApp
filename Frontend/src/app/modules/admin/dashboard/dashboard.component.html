@@ -1,0 +1,24 @@
+<div class="page-wrapper landrick-theme toggled">
+  <app-navbar></app-navbar>
+  <main class="page-content bg-light">
+    <div class="top-header">
+      <div class="header-bar d-flex justify-content-between border-bottom">
+        <div class="d-flex align-items-center">
+          <a
+            id="close-sidebar"
+            class="btn btn-icon btn-soft-light"
+            (click)="handleToggle()"
+          >
+            <fa-icon [icon]="faBars" class="text-center"></fa-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="layout-specing">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </main>
+</div>

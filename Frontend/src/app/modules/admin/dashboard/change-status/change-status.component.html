@@ -1,0 +1,184 @@
+<app-flash-message [message]="msg"></app-flash-message>
+<div class="row mt-4">
+  <div class="col">
+    <div class="card shadow rounded border-0">
+      <div *ngIf="user" class="card-body">
+        <div class="invoice-top pb-4 border-bottom">
+          <div class="row">
+            <div class="col-xl-9 col-md-8">
+              <div class="mb-2"><h5>Korisnik :</h5></div>
+              <h3>
+                <img
+                  src="{{
+                    user.img_path
+                      ? USER_IMAGES_URL + '/' + user.img_path
+                      : DEFAULT_USER_IMAGE
+                  }}"
+                  class="avatar avatar-ex-small rounded-circle shadow me-3"
+                  alt=""
+                />{{ user.username }}
+              </h3>
+              <dl class="row">
+                <dt class="col-md-3 col-5 fw-normal">Ime :</dt>
+                <dd class="col-md-9 col-7 text-muted">
+                  {{ user.firstname }}
+                </dd>
+                <dt class="col-md-3 col-5 fw-normal">Prezime :</dt>
+                <dd class="col-md-9 col-7 text-muted">
+                  {{ user.lastname }}
+                </dd>
+                <dt class="col-md-3 col-5 fw-normal">Moderator :</dt>
+                <dd class="col-md-9 col-7 text-muted">
+                  {{ user.type == "moderator" ? "Da" : "Ne" }}
+                </dd>
+              </dl>
+            </div>
+            <!--end col-->
+
+            <div class="col-xl-3 col-md-4 mt-4 mt-sm-0">
+              <h5>Kontakt :</h5>
+              <dl class="row mb-0">
+                <dt class="col-2 text-muted">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="feather feather-map-pin fea icon-sm"
+                  >
+                    <path
+                      d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
+                    ></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                </dt>
+                <dd class="col-10 text-muted">
+                  <p class="mb-0">{{ user.address }}, {{ user.city }}</p>
+                </dd>
+
+                <dt class="col-2 text-muted">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="currentColor"
+                    viewBox="0 0 8 6"
+                    class="feather feather-phone fea icon-sm"
+                  >
+                    <path
+                      d="m0 0h8v6h-8zm.75 .75v4.5h6.5v-4.5zM0 0l4 3 4-3v1l-4 3-4-3z"
+                    />
+                  </svg>
+                </dt>
+                <dd class="col-10 text-muted">
+                  <a href="mailto:{{ user.email }}" class="text-muted">
+                    {{ user.email }}</a
+                  >
+                </dd>
+
+                <dt class="col-2 text-muted">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="feather feather-phone fea icon-sm"
+                  >
+                    <path
+                      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                    ></path>
+                  </svg>
+                </dt>
+                <dd class="col-10 text-muted">
+                  <a href="tel:{{ user.phone }}" class="text-muted">{{
+                    user.phone
+                  }}</a>
+                </dd>
+              </dl>
+            </div>
+            <!--end col-->
+          </div>
+          <!--end row-->
+        </div>
+
+        <div class="invoice-middle py-4">
+          <div class="mb-0">
+            <dl class="row">
+              <dt class="col-md-3 col-5 fw-normal">Datum registracije :</dt>
+              <dd class="col-md-9 col-7 text-muted">
+                {{ user.createdAt | date: "dd/MM/Y HH:mm" }}
+              </dd>
+              <dt class="col-md-3 col-5 fw-normal">Status :</dt>
+
+              <dd
+                class="col-md-3 col-12 badge rounded px-3 py-1"
+                [ngClass]="{
+                  'bg-soft-warning': user.active == false,
+                  'bg-soft-success':
+                    user.active == true && user.blocked == false,
+                  'bg-soft-danger': user.blocked == true
+                }"
+              >
+                {{ user.active == false ? "Na cekanju" : "" }}
+                {{ user.active == 1 && user.blocked == false ? "Aktivan" : "" }}
+                {{ user.blocked == true ? "Blokiran" : "" }}
+              </dd>
+            </dl>
+          </div>
+          <div *ngIf="user.active == false; then pending; else active"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--end col-->
+</div>
+
+<div *ngIf="requestLoading" id="cover-spin"></div>
+
+<ng-template #pending>
+  <div class="row mb-0 justify-content-end">
+    <div class="col-12 col-md-3 col-xxl-2 nobreak text-end mt-4">
+      <button class="btn btn-danger w-100" (click)="denyRequest()">
+        Obrisi zahtev
+      </button>
+    </div>
+    <div class="col-12 col-md-3 col-xxl-2 nobreak text-end mt-4">
+      <button class="btn btn-primary w-100" (click)="acceptRequest()">
+        Odobri zahtev
+      </button>
+    </div>
+  </div></ng-template
+>
+<ng-template #active>
+  <div class="row mb-0 justify-content-end">
+    <div class="col-12 col-md-3 col-xxl-2 nobreak text-end mt-4">
+      <button class="btn btn-primary w-100" (click)="editUser()">Izmeni</button>
+    </div>
+    <div
+      *ngIf="user.blocked == false"
+      class="col-12 col-md-3 col-xxl-2 nobreak text-end mt-4"
+    >
+      <button class="btn btn-danger w-100" (click)="deactivateUser()">
+        Blokiraj
+      </button>
+    </div>
+    <div
+      *ngIf="user.blocked == true"
+      class="col-12 col-md-3 col-xxl-2 nobreak text-end mt-4"
+    >
+      <button class="btn btn-primary w-100" (click)="activateUser()">
+        Deblokiraj
+      </button>
+    </div>
+  </div></ng-template
+>

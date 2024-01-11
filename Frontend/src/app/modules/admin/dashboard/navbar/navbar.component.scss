@@ -1,0 +1,15 @@
+.sidebar-content {
+  overflow-y: hidden !important;
+}
+.sidebar-footer {
+  a {
+    color: rgba(255, 255, 255, 0.692);
+  }
+  a:hover,
+  a:active {
+    color: #fff;
+  }
+}
+.active {
+  color: #fff !important;
+}

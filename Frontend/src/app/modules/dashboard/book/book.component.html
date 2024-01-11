@@ -1,0 +1,321 @@
+<section class="section">
+  <div *ngIf="book" class="container">
+    <app-flash-message
+      [status]="flashMessageStatus"
+      [(message)]="flashMessage"
+    ></app-flash-message>
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <div class="bg-light p-5 rounded-md shadow me-lg-5">
+          <img
+            src="{{
+              book.img_path
+                ? BOOK_IMAGE_URL + '/' + book.img_path
+                : DEFAULT_BOOK_IMAGE
+            }}"
+            class="img-fluid mx-auto d-block"
+            alt=""
+          />
+        </div>
+      </div>
+      <!--end col-->
+
+      <div class="col-md-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
+        <div class="section-title">
+          <h4 class="title mb-2">{{ book.name }}</h4>
+          <div class="rating-holder mb-4">
+            <div
+              class="r-rating r-rating--big"
+              [attr.data-rating-value]="book_stars"
+            >
+              <button>1</button>
+              <button>2</button>
+              <button>3</button>
+              <button>4</button>
+              <button>5</button>
+              <button>6</button>
+              <button>7</button>
+              <button>8</button>
+              <button>9</button>
+              <button>10</button>
+              <span class="rating-number ps-2">
+                <span class="text-primary text-bold mb-0">{{
+                  book_rating | number: "1.0-2"
+                }}</span
+                ><span class="text-muted mb-0">/10</span></span
+              >
+            </div>
+          </div>
+          <p class="para-desc">
+            <span class="text-muted">Autor : </span>
+            {{ book.author.join(", ") }}
+          </p>
+          <p class="para-desc">
+            <span class="text-muted">Izdavac : </span>
+            {{ book.publisher }}
+          </p>
+          <p class="para-desc">
+            <span class="text-muted">Godina izdavanja : </span>
+            {{ book.year }}
+          </p>
+          <p class="para-desc">
+            <span class="text-muted">Jezik : </span>
+            {{ book.language }}
+          </p>
+
+          <p class="para-desc tagcloud">
+            <span class="text-muted me-3">Zanr : </span>
+            <a
+              *ngFor="let genre of book.genre"
+              href="jvascript:void(0)"
+              class="rounded"
+              >{{ genre.name }}</a
+            >
+          </p>
+
+          <p
+            class="para-desc badge rounded-pill p-2"
+            [ngClass]="{
+              'bg-soft-primary': book.count - book.taken > 0,
+              'bg-soft-danger': book.count - book.taken == 0
+            }"
+          >
+            <span>Na stanju : </span>
+            <span>
+              {{ book.count - book.taken }}
+            </span>
+          </p>
+          <a (click)="handleBorrow()" class="ms-2 btn btn-pills btn-primary">
+            Zaduzi knjigu
+          </a>
+
+          <a
+            *ngIf="isMod"
+            [routerLink]="['/dashboard/moderator/edit-book', id]"
+            class="ms-2 btn btn-pills btn-warning"
+          >
+            Azuriraj knjigu
+          </a>
+        </div>
+      </div>
+      <!--end col-->
+    </div>
+    <!--end row-->
+  </div>
+  <!--end container-->
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="row">
+      <div class="card shadow rounded border-0 mt-4">
+        <div class="card-body">
+          <h5 class="card-title mb-0">Recenzije :</h5>
+
+          <div class="mt-3" *ngIf="reviews.length == 0">
+            Nema recenzija za ovu knjigu
+          </div>
+          <ul class="media-list list-unstyled mb-0">
+            <li *ngFor="let review of reviews" class="mt-4">
+              <div *ngIf="review.user[0]">
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex align-items-center">
+                    <a class="pe-3" href="#">
+                      <img
+                        src="{{
+                          review.user[0].img_path
+                            ? USER_IMAGES_URL + '/' + review.user[0].img_path
+                            : DEFAULT_USER_IMAGE
+                        }}"
+                        class="img-fluid avatar avatar-md-sm rounded-circle shadow"
+                        alt="img"
+                      />
+                    </a>
+                    <div class="commentor-detail">
+                      <h6 class="mb-0">
+                        <a
+                          href="javascript:void(0)"
+                          class="text-dark media-heading"
+                          >{{ review.user[0].firstname }}
+                          {{ review.user[0].lastname }}</a
+                        >
+                      </h6>
+                      <small class="text-muted">{{
+                        review.createdAt | date: "d MMM, y, HH:mm:ss"
+                      }}</small>
+                      <small
+                        *ngIf="review.createdAt != review.updatedAt"
+                        class="text-muted"
+                      >
+                        , izmenjeno
+                        {{
+                          review.updatedAt | date: "d MMM, y, HH:mm:ss"
+                        }}</small
+                      >
+                    </div>
+                  </div>
+                  <div class="text-muted">
+                    <div class="rating-holder mb-4">
+                      <div
+                        class="r-rating r-rating--medium"
+                        [attr.data-rating-value]="review.rating"
+                      >
+                        <button>1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        <button>4</button>
+                        <button>5</button>
+                        <button>6</button>
+                        <button>7</button>
+                        <button>8</button>
+                        <button>9</button>
+                        <button>10</button>
+                        <span class="rating-number ps-2">
+                          <span class="text-primary text-bold mb-0">{{
+                            review.rating
+                          }}</span
+                          ><span class="text-muted mb-0">/10</span></span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <blockquote class="blockquote mt-3 mb-0">
+                  <p class="text-muted fst-italic p-3 bg-light rounded">
+                    " {{ review.comment }} "
+                  </p>
+                </blockquote>
+                <div class="text-end" *ngIf="user_id == review.user[0]._id">
+                  <a
+                    (click)="
+                      toggleEdit(review.rating, review.comment, review._id)
+                    "
+                    class="text-primary"
+                    >Izmeni</a
+                  >
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-12 mb-2">
+          <numbered-pagination
+            [index]="index"
+            (page)="reviews = $event"
+            (loading)="isLoading = $event"
+            [reload]="reload"
+            [totalCount]="cnt"
+            [getFunction]="getReviews(id)"
+          ></numbered-pagination>
+        </div>
+      </div>
+      <div *ngIf="canReview" class="card shadow rounded border-0 mt-4">
+        <div class="card-body">
+          <h5 class="card-title mb-0">
+            {{ !edit ? "Ostavite recenziju" : "Izmenite recenziju" }} :
+          </h5>
+
+          <form class="mt-3" [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="rating-holder mb-4">
+                  <div
+                    class="c-rating c-rating--big"
+                    [attr.data-rating-value]="reviewRating"
+                  >
+                    <button type="button" (click)="changeRating(1)">1</button>
+                    <button type="button" (click)="changeRating(2)">2</button>
+                    <button type="button" (click)="changeRating(3)">3</button>
+                    <button type="button" (click)="changeRating(4)">4</button>
+                    <button type="button" (click)="changeRating(5)">5</button>
+                    <button type="button" (click)="changeRating(6)">6</button>
+                    <button type="button" (click)="changeRating(7)">7</button>
+                    <button type="button" (click)="changeRating(8)">8</button>
+                    <button type="button" (click)="changeRating(9)">9</button>
+                    <button type="button" (click)="changeRating(10)">10</button>
+                    <span class="rating-number ps-2">
+                      <span class="text-primary text-bold mb-0">{{
+                        reviewRating
+                      }}</span
+                      ><span class="text-muted mb-0">/10</span></span
+                    >
+                  </div>
+                </div>
+                <div *ngIf="ratingError" class="text-danger">
+                  {{ ratingError }}
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Komentar: </label>
+                  <div class="form-icon position-relative">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="feather feather-message-circle fea icon-sm icons"
+                    >
+                      <path
+                        d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+                      ></path>
+                    </svg>
+
+                    <input
+                      formControlName="book"
+                      type="hidden"
+                      name="book"
+                      value="{{ id }}"
+                    />
+                    <input
+                      formControlName="rating"
+                      type="hidden"
+                      name="rating"
+                    />
+                    <textarea
+                      formControlName="comment"
+                      maxlength="1000"
+                      id="comment"
+                      placeholder="Vas komentar"
+                      rows="5"
+                      name="comment"
+                      class="form-control ps-5"
+                      required=""
+                      style="height: 183px"
+                    ></textarea>
+
+                    <p class="text-end text-muted">
+                      <small>{{ charachtersCount }}/1000</small>
+                    </p>
+                  </div>
+                  <span *ngIf="commentError" class="text-danger">{{
+                    commentError
+                  }}</span>
+                </div>
+              </div>
+              <!--end col-->
+
+              <div class="col-md-12">
+                <div class="send d-grid">
+                  <button type="submit" class="btn btn-primary">
+                    {{ !edit ? "Posalji recenziju" : "Izmeni recenziju" }}
+                  </button>
+                </div>
+              </div>
+
+              <!--end col-->
+            </div>
+            <!--end row-->
+          </form>
+          <!--end form-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--end container-->
+</section>

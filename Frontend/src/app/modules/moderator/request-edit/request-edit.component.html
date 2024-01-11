@@ -1,0 +1,283 @@
+<div class="container mt-100 mb-5">
+  <app-flash-message [message]="flashMessage"></app-flash-message>
+  <div class="card border-0 rounded shadow">
+    <div class="card-body">
+      <h5>Zahtev :</h5>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-12 col-md-6 order-2 order-md-1">
+            <div
+              class="form-group"
+              [ngClass]="{ 'has-danger': !formValidity['name'] }"
+            >
+              <label class="form-label" for="name"
+                >Naslov knjige <span class="required">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                aria-describedby="name"
+                formControlName="name"
+                placeholder="Unesite naslov"
+                (blur)="onFieldBlur($event)"
+              />
+              <app-control-message
+                [control]="getControl('name')"
+                [submitErrors]="submitErrors"
+              ></app-control-message>
+            </div>
+            <div class="form-group mt-4">
+              <label class="form-label"
+                >Unesite autora <span class="required">*</span></label
+              >
+              <br />
+              <small class="text-muted"
+                >Knjiga mora imati bar 1 autora a najvise 3.</small
+              >
+
+              <p *ngIf="authorError">
+                <small class="text-danger">{{ authorError }}</small>
+              </p>
+              <ng-container formArrayName="author">
+                <ng-container
+                  *ngFor="let authorForm of author.controls; let i = index"
+                >
+                  <div class="form-group mb-0">
+                    <div class="row align-items-end">
+                      <div
+                        [ngClass]="{
+                          'has-danger': !formValidity['author'][i]
+                        }"
+                        class="col-10"
+                      >
+                        <label class="form-label">Ime i prezime autora :</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          aria-describedby="name"
+                          [formControlName]="i"
+                          placeholder="Unesite autora"
+                        />
+                      </div>
+                      <div class="col-2">
+                        <button
+                          type="button"
+                          class="btn btn-soft-danger w-50px"
+                          (click)="deleteAuthorForm(i)"
+                        >
+                          -
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-10">
+                      <app-control-message
+                        [control]="getControl('author.' + i)"
+                        [submitErrors]="submitErrors"
+                      ></app-control-message>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <div class="row mt-3">
+                <div class="offset-10 col-2">
+                  <button
+                    *ngIf="authorFormsCount < 3"
+                    type="button"
+                    class="btn btn-soft-primary w-50px"
+                    (click)="addAuthorForm()"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="form-group"
+              [ngClass]="{ 'has-danger no-after': !formValidity['genre'] }"
+            >
+              <label class="form-label" for="genre"
+                >Odaberite zanrove knjige <span class="required">*</span>
+              </label>
+              <br />
+              <small class="text-muted"
+                >Knjiga mora imati bar 1 zanr a najvise 3.</small
+              >
+              <ng-select
+                [items]="genres"
+                bindLabel="name"
+                dropdownPosition="auto"
+                bindValue="_id"
+                placeholder="Odaberite zanr"
+                [virtualScroll]="true"
+                formControlName="genre"
+                [multiple]="true"
+                [maxSelectedItems]="3"
+                labelForId="genre"
+                (blur)="onFieldBlur($event)"
+              >
+              </ng-select>
+              <app-control-message
+                [control]="getControl('genre')"
+                [submitErrors]="submitErrors"
+              ></app-control-message>
+            </div>
+
+            <div
+              class="form-group"
+              [ngClass]="{ 'has-danger': !formValidity['publisher'] }"
+            >
+              <label class="form-label" for="name"
+                >Izdavac <span class="required">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="publisher"
+                aria-describedby="publisher"
+                formControlName="publisher"
+                placeholder="Unesite ime izdavaca"
+                (blur)="onFieldBlur($event)"
+              />
+              <app-control-message
+                [control]="getControl('publisher')"
+                [submitErrors]="submitErrors"
+              ></app-control-message>
+            </div>
+
+            <div
+              class="form-group"
+              [ngClass]="{ 'has-danger': !formValidity['year'] }"
+            >
+              <label class="form-label" for="year"
+                >Godina izdavanja <span class="required">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="year"
+                aria-describedby="year"
+                formControlName="year"
+                placeholder="Unesite godinu"
+                (blur)="onFieldBlur($event)"
+              />
+              <app-control-message
+                [control]="getControl('year')"
+                [submitErrors]="submitErrors"
+              ></app-control-message>
+            </div>
+
+            <div
+              class="form-group"
+              [ngClass]="{ 'has-danger': !formValidity['language'] }"
+            >
+              <label class="form-label" for="language"
+                >Jezik <span class="required">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="language"
+                aria-describedby="language"
+                formControlName="language"
+                placeholder="Unesite jezik"
+                (blur)="onFieldBlur($event)"
+              />
+              <app-control-message
+                [control]="getControl('language')"
+                [submitErrors]="submitErrors"
+              ></app-control-message>
+            </div>
+
+            <div
+              class="form-group"
+              [ngClass]="{ 'has-danger': !formValidity['count'] }"
+            >
+              <label class="form-label" for="count"
+                >Broj primeraka knjige <span class="required">*</span></label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="count"
+                aria-describedby="count"
+                formControlName="count"
+                placeholder="Unesite broj primeraka"
+                (blur)="onFieldBlur($event)"
+              />
+              <p class="text-taken">Trenutno je zaduzeno: {{ taken }}</p>
+              <app-control-message
+                [control]="getControl('count')"
+                [submitErrors]="submitErrors"
+              ></app-control-message>
+            </div>
+
+            <div
+              class="form-group"
+              [ngClass]="{ 'has-danger': !formValidity['image'] }"
+            >
+              <label class="form-label" for="image">Slika korice </label>
+              <br />
+              <div *ngIf="imageUrl && imageUrl !== ''">
+                <img [src]="imageUrl" class="imagePreview" />
+              </div>
+              <div class="input-group">
+                <div class="form-control upload-control border-end-0">
+                  {{ imageFileName || "Odaberite sliku..." }}
+                </div>
+                <div
+                  class="input-group-append btn btn-pills btn-soft-primary"
+                  (click)="image.click()"
+                >
+                  <fa-icon [icon]="faFileUpload"></fa-icon>
+                </div>
+              </div>
+
+              <input
+                hidden
+                #image
+                id="avatar"
+                type="file"
+                accept="image/*"
+                (change)="showPreview(image.files)"
+              />
+
+              <app-control-message
+                [control]="getControl('image')"
+                [submitErrors]="submitErrors"
+              ></app-control-message>
+            </div>
+          </div>
+          <div
+            class="form-group col-12 order-1 order-md-2 col-md-6 text-center"
+          >
+            <label class="form-label" for="name">Korice:</label>
+            <br />
+            <img
+              *ngIf="imgCover"
+              src="{{
+                imgCover ? BOOK_IMAGE_URL + '/' + imgCover : DEFAULT_BOOK_IMAGE
+              }}"
+              class="img-fluid mx-auto"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <div class="text-end mt-3">
+          <button
+            type="button"
+            (click)="deleteReq()"
+            class="btn btn-danger me-2"
+          >
+            Obrisi
+          </button>
+          <button type="submit" class="btn btn-primary">Prihvati</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

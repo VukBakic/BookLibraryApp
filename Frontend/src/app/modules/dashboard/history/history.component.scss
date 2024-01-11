@@ -1,0 +1,31 @@
+.book-img {
+  border-radius: 0px !important;
+  height: 80px;
+  width: 56px;
+  background-size: cover;
+}
+.p40 {
+  margin-top: 140px;
+}
+
+.table-link {
+  color: rgb(170, 170, 170);
+  .caret {
+    .active {
+      color: #1b9c9e;
+    }
+    color: rgb(170, 170, 170);
+    &:hover {
+      .active {
+        color: #17797a;
+      }
+      color: #17797a;
+    }
+    cursor: pointer;
+  }
+}
+.rotated {
+  display: inline-block;
+  transform: rotate(180deg);
+  transition: transform 0.4s;
+}
